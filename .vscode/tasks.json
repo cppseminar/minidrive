@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "detail": "Configure the project using CMake",
+      "label": "project-configure",
+      "type": "shell",
+      "command": "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug",
+      "problemMatcher": []
+    },
+    {
+      "detail": "Build the project using CMake",
+      "label": "project-build",
+      "type": "shell",
+      "command": "cmake --build build -- -j$(nproc)",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}
