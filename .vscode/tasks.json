@@ -5,7 +5,7 @@
       "detail": "Configure the project using CMake",
       "label": "project-configure",
       "type": "shell",
-      "command": "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug",
+      "command": "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
       "problemMatcher": []
     },
     {
@@ -18,6 +18,48 @@
         "isDefault": true
       },
       "problemMatcher": []
+    },
+    {
+      "detail": "Run client",
+      "label": "run-client",
+      "type": "shell",
+      "command": "./build/client/client ${MINIDRIVE_USERNAME:+$MINIDRIVE_USERNAME@}${MINIDRIVE_HOST:-127.0.0.1}:${MINIDRIVE_PORT:-9000}",
+      "problemMatcher": [],
+      "dependsOn": ["project-build"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "new",
+        "focus": true
+      }
+    },
+    {
+      "detail": "Run server",
+      "label": "run-server",
+      "type": "shell",
+      "command": "./build/server/server --port ${MINIDRIVE_PORT:-9000} --root data/server_root",
+      "dependsOn": ["project-build"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "new",
+        "focus": true
+      },
+      "problemMatcher": []
+    }
+    ,
+    {
+      "detail": "Terminate server with SIGTERM",
+      "label": "terminate-server",
+      "type": "shell",
+      "command": "bash -c 'PID=$(pgrep -x server || ps -eo pid,comm | awk \"/server$/ {print $1}\" | head -n1); if [ -n \"$PID\" ]; then echo Sending SIGTERM to $PID; kill -TERM $PID; else echo \"No server process found\"; fi'",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      }
     }
   ]
 }

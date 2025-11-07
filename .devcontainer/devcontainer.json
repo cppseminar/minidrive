@@ -1,9 +1,17 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/cpp
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/cpp
 {
 	"name": "C++",
 	"build": {
 		"dockerfile": "Dockerfile"
+	},
+
+	"containerEnv": {
+		"MINIDRIVE_HOST": "127.0.0.1",
+		"MINIDRIVE_PORT": "9000",
+		"MINIDRIVE_USERNAME": ""
 	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.

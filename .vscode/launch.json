@@ -2,24 +2,29 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug (gdb)",
+      "name": "Debug Server",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/APCProject",
-      "args": [],
+      "program": "${workspaceFolder}/build/server/server",
+      "args": ["--port", "${env:MINIDRIVE_PORT}", "--root", "${workspaceFolder}/data/server_root"],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
-      "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",
       "miDebuggerPath": "/usr/bin/gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ],
+      "preLaunchTask": "project-build"
+    },
+    {
+      "name": "Debug Client",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/client/client",
+      "args": ["${env:MINIDRIVE_USERNAME}${env:MINIDRIVE_USERNAME:+@}${env:MINIDRIVE_HOST}:${env:MINIDRIVE_PORT}"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb",
       "preLaunchTask": "project-build"
     }
   ]
