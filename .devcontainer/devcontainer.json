@@ -33,7 +33,7 @@
 	"postCreateCommand": "cmake --version && mkdir -p build",
 	// this is the same command as in tasks.json for project-configure, 
 	// not sure how to call it here directly
-	"postAttachCommand": "mkdir -p build && cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug"
+	"postAttachCommand": "mkdir -p build && cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
