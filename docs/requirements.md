@@ -128,12 +128,18 @@ The client must support the following commands at the `>` prompt:
 
 ### 🐌 Resuming Transfers
 
-* Server can crash or connection can be lost at any time during file transfer.
+* **Resuming transfers should only work for private mode, so no need to implement it when user asks for public mode**
+* Server can crash or connection can be lost at any time during file transfer. You should be able to resume in this two instances (others scenations can result in non resumable upload/download)
+   * SIGTERM was sent to server
+   * Connection from client is lost
 * Client must be able to resume interrupted uploads and downloads.
-* For resuming uploads, the client should first check with the server how many bytes (chunks) of the file have already been uploaded, then continue uploading from that point.
-* For resuming downloads, the client should check how many bytes (chunks) of the file have already been downloaded, then continue downloading from that point.
+* For **resuming uploads**, the client should first check with the server how many bytes (chunks) of the file have already been uploaded, the flow should be like this:
+   * After handshake and auth with the server client requests file server is currently able to resume
+   * Server responds with the file (it is up to you whether you will send local path, hash, or you have this saved by client, or you add some request id as part of protocol and used that)
+   * Client should then request resume and start uploading
+* For **resuming downloads**, the client have to store some info about last operation, upon successfull connect it should request download, but only specific part
 * You can implement resuming by storing temporary files with a special extension (e.g., `.part`) and renaming them once the transfer is complete.
-* Client should handle the resuming logic, so it must persist the state of interrupted transfers (e.g., in a local file). Hashes should be used to verify file integrity after download/upload is complete.
+* Hashes should be used to verify file integrity after download/upload is complete.
 * Incomplete uploads on the server should be cleaned up if the client does not resume within a certain timeout (e.g., 1 hour). You can implement this with a timer or thread.
 * Upon client startup, when there are incomplete transfers (either file, or sync), the client should inform the user and offer to resume them or discard them. 
 
@@ -155,6 +161,7 @@ UPLOAD <file1>
 * More points will be awarded if you allow multiple sessions per user. 
     * This means that multiple clients can connect simultaneously with the same username (or in public mode) and perform file operations concurrently.
     * No file should be corrupted, if two clients upload the same file at the same time, one upload may overwrite the other, but the server must not crash and other clients must not be affected.
+    * Resuming downloads should be easy to implement, but resuming uploads need some care, since multiple session can upload to one user's directory
 
 ---
 
@@ -237,4 +244,5 @@ Please define your own error codes and messages and document them in your docume
 | **Subtotal** | | **30** |
 | **Logging** | Optional nice structured logging with library **spdlog** | 1 |
 | **Multiple Sessions** | Optional, but appreciated for extra challenge | 2 |
+
 | **TOTAL** | | **33** |
